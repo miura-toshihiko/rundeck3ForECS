@@ -36,8 +36,9 @@ jobs:
             docker tag  nginx_4_oauth2_proxy:latest $AWS_ACCOUNT_ID.dkr.ecr.ap-northeast-1.amazonaws.com/nginx_4_oauth2_proxy:latest
             docker push $AWS_ACCOUNT_ID.dkr.ecr.ap-northeast-1.amazonaws.com/nginx_4_oauth2_proxy:latest
 
+
 workflows:
   version: 2
-  deploy:
+  test_and_deploy:
     jobs:
       - deploy-ecr:
