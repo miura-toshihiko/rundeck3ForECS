@@ -35,5 +35,32 @@ jobs:
             docker build -t nginx_4_oauth2_proxy .
             docker tag  nginx_4_oauth2_proxy:latest $AWS_ACCOUNT_ID.dkr.ecr.ap-northeast-1.amazonaws.com/nginx_4_oauth2_proxy:latest
             docker push $AWS_ACCOUNT_ID.dkr.ecr.ap-northeast-1.amazonaws.com/nginx_4_oauth2_proxy:latest
+  test-tf:
+    working_directory: ~/ecs
+    docker:
+      - image: hashicorp/terraform:light
+    steps:
+      - checkout
+      - run:
+          name: Init terraform
+          command: terraform init ~/ecs
+      - run:
+          name: Validate terraform
+          command: terraform validate ~/ecs
+      - run:
+          name: Plan terraform
+          command: terraform plan ~/ecs
+  deploy-tf:
+    working_directory: ~/ecs
+    docker:
+      - image: hashicorp/terraform:light
+    steps:
+      - checkout
+      - run:
+          name: Init terraform
+          command: terraform init ~/ecs
+      - run:
+          name: Apply terraform
+          command: terraform apply -auto-approve ~/ecs
 
 
