@@ -59,7 +59,7 @@ jobs:
           name: Plan terraform
           command: terraform plan ~/tfwork/ecs
   deploy-tf:
-    working_directory: ~/ecs
+    working_directory: ~/tfwork
     docker:
       - image: hashicorp/terraform:light
     steps:
