@@ -5,8 +5,8 @@
 ###  TF_VAR_secret_key
 ###  TF_VAR_tf_s3_backend
 
-variable "access_key" {}
-variable "secret_key" {}
+#variable "access_key" {}
+#variable "secret_key" {}
 
 
 
