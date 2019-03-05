@@ -3,10 +3,13 @@ terraform {
   backend "s3" {
     encrypt = "true"
     region = "ap-northeast-1"
-    bucket = "${var.tf_s3_backend}"
+
+    ## backend内では変数使えない。パラメータとして、実行時にわたせとのこと
+    ##bucket = "${var.tf_s3_backend}"
+    bucket = "demo-tfstates2019"
+    
     key = "ecs/terraform.tfstate"
-    access_key = "${var.aws_access_key}"
-    secret_key = "${var.aws_secret_key}"
+    profile = "default"
   }
 }
 
