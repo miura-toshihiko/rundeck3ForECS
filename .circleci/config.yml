@@ -71,3 +71,10 @@ jobs:
           command: terraform apply -auto-approve ~/ecs
 
 
+workflows:
+  version: 2
+  fuga:
+    jobs:
+      - build
+      - test-tf
+      - deploy-tf
