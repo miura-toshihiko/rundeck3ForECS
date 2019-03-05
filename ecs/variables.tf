@@ -14,8 +14,8 @@
 variable "iam_users" {
   type = "list"
   default = [
-    "iam_user1",
-    "iam_user2",
-    "iam_user3",
+    "iam_user4",
+    "iam_user5",
+    "iam_user6",
   ]
 }
