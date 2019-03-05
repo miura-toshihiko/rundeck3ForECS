@@ -36,7 +36,7 @@ jobs:
             docker tag  nginx_4_oauth2_proxy:latest $AWS_ACCOUNT_ID.dkr.ecr.ap-northeast-1.amazonaws.com/nginx_4_oauth2_proxy:latest
             docker push $AWS_ACCOUNT_ID.dkr.ecr.ap-northeast-1.amazonaws.com/nginx_4_oauth2_proxy:latest
   test-tf:
-    working_directory: ~/ecs
+    working_directory: ~/tfwork
     docker:
       - image: hashicorp/terraform:light
     steps:
@@ -47,16 +47,17 @@ jobs:
             export  TF_VAR_access_key=$AWS_ACCESS_KEY_ID
             export  TF_VAR_secret_key=$AWS_SECRET_ACCESS_KEY
             export -p
-            cd ~/ecs
+            cd ~/tfwork
+            ls -la
       - run:
           name: Init terraform
-          command: terraform init ~/ecs
+          command: terraform init ~/tfwork/ecs
       - run:
           name: Validate terraform
-          command: terraform validate ~/ecs
+          command: terraform validate ~/tfwork/ecs
       - run:
           name: Plan terraform
-          command: terraform plan ~/ecs
+          command: terraform plan ~/tfwork/ecs
   deploy-tf:
     working_directory: ~/ecs
     docker:
@@ -72,10 +73,10 @@ jobs:
             cd ~/ecs      
       - run:
           name: Init terraform
-          command: terraform init ~/ecs
+          command: terraform init ~/tfwork/ecs
       - run:
           name: Apply terraform
-          command: terraform apply -auto-approve ~/ecs
+          command: terraform apply -auto-approve ~/tfwork/ecs
 
 
 workflows:
