@@ -7,7 +7,7 @@
 
 variable "access_key" {}
 variable "secret_key" {}
-variable "tf_s3_backend" {}
+
 
 
 # IAMユーザ一覧 TEST用
