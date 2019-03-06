@@ -19,15 +19,14 @@ terraform {
 provider "aws" {
   region = "ap-northeast-1"
   profile = "default"
-  #access_key = "${var.access_key}"
-  #secret_key = "${var.secret_key}"
+ 
 }
 
 
 # IAMユーザの設定
-resource "aws_iam_user" "iam_users" {
-  count = "${length(var.iam_users)}"
-  name = "${element(var.iam_users, count.index)}"
-  path = "/"
-  force_destroy = false
-}
+#resource "aws_iam_user" "iam_users" {
+  #count = "${length(var.iam_users)}"
+  #name = "${element(var.iam_users, count.index)}"
+  #path = "/"
+  #force_destroy = false
+#}
