@@ -40,15 +40,7 @@ jobs:
     docker:
       - image: hashicorp/terraform:light
     steps:
-      - checkout
-      - run:
-          name: copy env for terraform
-          command: |
-            export  TF_VAR_access_key=$AWS_ACCESS_KEY_ID
-            export  TF_VAR_secret_key=$AWS_SECRET_ACCESS_KEY
-            export -p
-            cd ~/tfwork
-            ls -la
+      - checkout      
       - run:
           name: Init terraform
           command: terraform init ~/tfwork/ecs
@@ -65,13 +57,6 @@ jobs:
     steps:
       - checkout
       - run:
-          name: copy env for terraform
-          command: |
-            export  TF_VAR_access_key=$AWS_ACCESS_KEY_ID
-            export  TF_VAR_secret_key=$AWS_SECRET_ACCESS_KEY
-            export -p
-            
-      - run:
           name: Init terraform
           command: terraform init ~/tfwork/ecs
       - run:
@@ -81,7 +66,7 @@ jobs:
 
 workflows:
   version: 2
-  fuga:
+  full-flow:
     jobs:
       - build
       - test-terraform
