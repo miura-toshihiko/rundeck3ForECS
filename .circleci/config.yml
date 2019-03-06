@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  build:
+  build-rundeck3:
     working_directory: ~/myapp
     docker:
       - image: circleci/python:3.6.1
@@ -25,16 +25,62 @@ jobs:
             docker build -t rundeck3docker .
             docker tag  rundeck3docker:latest $AWS_ACCOUNT_ID.dkr.ecr.ap-northeast-1.amazonaws.com/rundeck3docker:latest
             docker push $AWS_ACCOUNT_ID.dkr.ecr.ap-northeast-1.amazonaws.com/rundeck3docker:latest
+
+  build-oauth2_proxy:
+    working_directory: ~/myapp
+    docker:
+      - image: circleci/python:3.6.1
+    environment:
+      AWS_DEFAULT_REGION: ap-northeast-1
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          command: python -m venv env
+      - run:
+          name: Build Docker Image and Push to ECR
+          command: |
+            COMMIT_ID=$(echo $CIRCLE_SHA1 | cut -c1-7)
+            . env/bin/activate
+            pip install -U awscli awsebcli ebi
+            aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+            aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+            aws ecr get-login --no-include-email --region ap-northeast-1 | /bin/bash                        
             cd ~/myapp
             cd oauth2_proxy
             docker build -t oauth2_proxy_docker .
             docker tag  oauth2_proxy_docker:latest $AWS_ACCOUNT_ID.dkr.ecr.ap-northeast-1.amazonaws.com/oauth2_proxy_docker:latest
-            docker push $AWS_ACCOUNT_ID.dkr.ecr.ap-northeast-1.amazonaws.com/oauth2_proxy_docker:latest
+            docker push $AWS_ACCOUNT_ID.dkr.ecr.ap-northeast-1.amazonaws.com/oauth2_proxy_docker:latest            
+
+            
+  build-nginx_4_oauth2_proxy:
+    working_directory: ~/myapp
+    docker:
+      - image: circleci/python:3.6.1
+    environment:
+      AWS_DEFAULT_REGION: ap-northeast-1
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          command: python -m venv env
+      - run:
+          name: Build Docker Image and Push to ECR
+          command: |
+            COMMIT_ID=$(echo $CIRCLE_SHA1 | cut -c1-7)
+            . env/bin/activate
+            pip install -U awscli awsebcli ebi
+            aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+            aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+            aws ecr get-login --no-include-email --region ap-northeast-1 | /bin/bash
             cd ~/myapp
             cd nginx_4_oauth2_proxy
             docker build -t nginx_4_oauth2_proxy .
             docker tag  nginx_4_oauth2_proxy:latest $AWS_ACCOUNT_ID.dkr.ecr.ap-northeast-1.amazonaws.com/nginx_4_oauth2_proxy:latest
             docker push $AWS_ACCOUNT_ID.dkr.ecr.ap-northeast-1.amazonaws.com/nginx_4_oauth2_proxy:latest
+
+
+
   test-terraform:
     working_directory: ~/tfwork
     docker:
@@ -68,6 +114,8 @@ workflows:
   version: 2
   full-flow:
     jobs:
-      - build
+      - build-rundeck3
+      - build-oauth2_proxy
+      - build-nginx_4_oauth2_proxy
       - test-terraform
       - deploy-terraform
