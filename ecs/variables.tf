@@ -5,17 +5,8 @@
 ###  TF_VAR_secret_key
 ###  TF_VAR_tf_s3_backend
 
-#variable "access_key" {}
-#variable "secret_key" {}
-
-
-
-# IAMユーザ一覧 TEST用
-variable "iam_users" {
-  type = "list"
-  default = [
-    "iam_user4",
-    "iam_user5",
-    "iam_user6",
-  ]
-}
+variable "RUNDECK_GRAILS_URL" {}
+variable "RUNDECK_DATABASE_URL" {}
+variable "RUNDECK_DATABASE_USERNAME" {}
+variable "RUNDECK_DATABASE_PASSWORD" {}
+variable "RUNDECK_PLUGIN_EXECUTIONFILESTORAGE_S3_BUCKET" {}
