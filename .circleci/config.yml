@@ -88,14 +88,13 @@ jobs:
     steps:
       - checkout      
       - run:
-          name: Init terraform
-          command: terraform init ~/tfwork/ecs
-      - run:
-          name: Validate terraform
-          command: terraform validate ~/tfwork/ecs
-      - run:
-          name: Plan terraform
-          command: terraform plan ~/tfwork/ecs
+          name: terraform plan 
+          command: |
+            cd ~/tfwork/ecs
+            pwd          
+            terraform init 
+            terraform validate 
+            terraform plan 
   deploy-terraform:
     working_directory: ~/tfwork
     docker:
@@ -103,11 +102,12 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Init terraform
-          command: terraform init ~/tfwork/ecs
-      - run:
-          name: Apply terraform
-          command: terraform apply -auto-approve ~/tfwork/ecs
+          name: terraform apply
+          command: |
+            cd ~/tfwork/ecs
+            pwd          
+            terraform init 
+            terraform apply -auto-approve 
 
 
 workflows:
