@@ -2,7 +2,8 @@ data "template_file" "ecstask" {
   template = "${file("task-definitions/service.json")}"
 
   vars {
-     account_id   = "755575973821"
+     ##account_id   = "755575973821"
+    account_id   = "755575973822"
   }
 }
 
